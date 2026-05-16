@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Fruitful Marketing CRM</title>
+
+<style>
+  body {
+  font-family: Arial;
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  overflow-x: hidden;
+}
+
+  .kanban {
+  display: flex;
+  gap: 15px;
+  padding: 20px;
+  overflow-x: auto;
+  flex: 1;
+  align-items: flex-start;
+  min-height: calc(100vh - 80px);
+}
+  .coluna {
+  background: #f1f4f8;
+  padding: 12px;
+  border-radius: 12px;
+  width: 280px;
+  min-height: 500px;
+  flex-shrink: 0;
+  border: 1px solid #e2e8f0;
+}
+  .header-coluna {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  font-size: 14px;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+  .card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  cursor: grab;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border: 1px solid #e8edf2;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.card .editable:first-of-type {
+  font-weight: 700;
+  font-size: 14px;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+
+.card .editable {
+  color: #555;
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+
+  .card:active {
+    cursor: grabbing;
+  }
+
+  .btn {
+    margin-top: 10px;
+    background: linear-gradient(90deg, #ff6a00, #ff8c00);
+    border: none;
+    color: white;
+    padding: 7px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    width: 100%;
+    font-weight: bold;
+  }
+
+.btn-import {
+  background: linear-gradient(90deg, #ff6a00, #ff8c00);
+  border: none;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 13px;
+  box-shadow: 0 4px 12px rgba(255,106,0,0.3);
+  transition: 0.2s;
+}
+
+.btn-import {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-import:hover {
+  transform: scale(1.05);
+}
+
+  .delete-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    border: none;
+    background: #fee2e2;
+    color: #dc2626;
+    cursor: pointer;
+    border-radius: 6px;
+    width: 22px;
+    height: 22px;
+  }
+
+  /* 🔥 EDITÁVEL */
+  .editable {
+    outline: none;
+    border-radius: 6px;
+    padding: 2px 4px;
+  }
+
+  .editable:focus {
+    background: #fff7ed;
+  }
+
+#loginBox {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #fff5ee 0%, #fff 50%, #fff5ee 100%);
+}
+
+.login-card {
+  background: white;
+  border-radius: 20px;
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 40px rgba(255,106,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 0 auto;
+}
+
+.login-logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a1a1a;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.login-logo img {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  display: block;
+}
+
+.login-logo span {
+  line-height: 1;
+  padding-top: 18px;
+}
+
+.login-logo span {
+  display: flex;
+  align-items: center;
+}
+
+.login-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.login-field label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.input-wrapper:focus-within {
+  border-color: #ff6a00;
+}
+
+.input-icon {
+  padding: 0 12px;
+  font-size: 16px;
+  color: #9ca3af;
+}
+
+.input-wrapper input {
+  border: none;
+  outline: none;
+  padding: 13px 12px 13px 0;
+  font-size: 14px;
+  width: 100%;
+  color: #1a1a1a;
+}
+
+.login-btn {
+  background: linear-gradient(90deg, #ff6a00, #ff8c00);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  transition: opacity 0.2s;
+}
+
+.login-btn:hover {
+  opacity: 0.9;
+}
+
+* {
+  font-family: 'Montserrat', sans-serif;
+  box-sizing: border-box;
+}
+
+#app {
+  display: flex;
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #fff5ee 0%, #fff 100%);
+  border-right: 1px solid #ffe0cc;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: width 0.3s;
+  flex-shrink: 0;
+  z-index: 100;
+}
+
+.sidebar.collapsed {
+  width: 64px;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px 24px;
+  border-bottom: 1px solid #ffe0cc;
+  margin-bottom: 16px;
+}
+
+.sidebar-logo img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.sidebar-nome {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 8px;
+  flex: 1;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #555;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.nav-item:hover {
+  background: #fff0e6;
+  color: #ff6a00;
+}
+
+.nav-item.active {
+  background: #fff0e6;
+  color: #ff6a00;
+  font-weight: 700;
+}
+
+.nav-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.nav-label {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebar.collapsed .nav-label,
+.sidebar.collapsed .sidebar-nome {
+  display: none;
+}
+
+.sidebar-footer {
+  padding: 0 8px;
+  border-top: 1px solid #ffe0cc;
+  padding-top: 12px;
+  margin-top: 12px;
+}
+
+.sidebar-toggle {
+  position: fixed;
+  top: 50%;
+  left: 228px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid #ffe0cc;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 101;
+  transition: left 0.3s;
+}
+
+/* MAIN CONTENT */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-x: auto;
+  margin-left: 240px;
+  transition: margin-left 0.3s;
+}
+
+.main-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  background: white;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar-actions input {
+  padding: 8px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 13px;
+  outline: none;
+}
+
+.topbar-actions button {
+  padding: 8px 14px;
+  background: #ff6a00;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.btn-import {
+  background: linear-gradient(90deg, #ff6a00, #ff8c00) !important;
+  border-radius: 999px !important;
+  padding: 8px 16px !important;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- 🔐 LOGIN -->
+<div id="loginBox">
+  <div class="login-card">
+    <div class="login-logo">
+      <img src="logo-transparent.png" alt="Fruitful Sales">
+      <span>Fruitful Sales</span>
+    </div>
+
+    <h2 class="login-title">Entre na sua conta</h2>
+
+    <div class="login-field">
+      <label>Email</label>
+      <div class="input-wrapper">
+        <span class="input-icon">✉</span>
+        <input id="email" type="email" placeholder="seu@email.com" />
+      </div>
+    </div>
+
+    <div class="login-field">
+      <label>Senha</label>
+      <div class="input-wrapper">
+        <span class="input-icon">🔒</span>
+        <input id="password" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter') login()" />
+      </div>
+    </div>
+
+    <p id="loginError" style="color:#dc2626; font-size:13px; margin:0;"></p>
+
+    <button class="login-btn" onclick="login()">Entrar</button>
+  </div>
+</div>
+
+<<div id="app" style="display:none;">
+
+  <!-- MENU LATERAL -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <img src="logo-transparent.png" alt="Fruitful Sales">
+      <span class="sidebar-nome">Fruitful Sales</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-item" href="#">
+  <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+  <span class="nav-label">Visão Geral</span>
+</a>
+<a class="nav-item active" href="#">
+  <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>
+  <span class="nav-label">Fluxo Comercial</span>
+</a>
+<a class="nav-item" href="#">
+  <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+  <span class="nav-label">Configurações</span>
+</a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="nav-item" onclick="logout()" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;">
+  <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+  <span class="nav-label">Sair</span>
+</button>
+    </div>
+
+    <button class="sidebar-toggle" onclick="toggleSidebar()">‹</button>
+  </div>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <div class="main-content" id="mainContent">
+
+    <!-- TOPBAR -->
+    <div class="main-topbar">
+      <h1 class="page-title">Fluxo Comercial</h1>
+      <div class="topbar-actions">
+        <input id="novaColuna" placeholder="Nova coluna">
+        <button onclick="criarColuna()">+ Coluna</button>
+        <input type="file" id="importCSV" accept=".csv" style="display:none" onchange="importarCSV(event)">
+        <button class="btn-import" onclick="document.getElementById('importCSV').click()">
+          ⬇ Importar Leads
+        </button>
+      </div>
+    </div>
+
+    <!-- KANBAN -->
+    <div class="kanban"></div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<script>
+
+let PIPELINE = "prospeccao";
+
+const SUPABASE_URL = "https://kovyacnxkvxeudaithcg.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtvdnlhY254a3Z4ZXVkYWl0aGNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NjY0MjYsImV4cCI6MjA5MjU0MjQyNn0.Ysas7gIh0-kMhWrMgAhDqv18JKNEKQ1-FP99uCqdiK4";
+
+const supabaseClient = supabase.createClient(
+  
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+async function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    document.getElementById("loginError").innerText = "Email ou senha inválidos";
+    console.error(error);
+    return;
+  }
+
+  iniciarApp(data.user);
+}
+
+async function iniciarApp(user) {
+  window.currentUser = user;
+  PIPELINE = user.user_metadata?.pipeline || "prospeccao";
+
+  // 🔥 LIMPA localStorage pra não misturar usuários
+  localStorage.removeItem("crm");
+  localStorage.removeItem("columns");
+  localStorage.removeItem("messages");
+
+  document.getElementById("loginBox").style.display = "none";
+  document.getElementById("app").style.display = "block";
+
+  console.log("👤 logado:", user.id);
+
+  // 🔥 CARREGA DO BANCO
+  await carregarColunas(user.id);
+  await carregarLeadsDoSupabase(user.id);
+
+  render();
+
+  setTimeout(() => {
+    pegarLeadDaURL();
+  }, 300);
+}
+
+console.log("🔥 Supabase conectado");
+
+/* =========================
+   STATE
+========================= */
+let columns = [];
+
+let crm = JSON.parse(localStorage.getItem("crm")) || {};
+let messages = JSON.parse(localStorage.getItem("messages")) || {};
+
+let leadIndex = {}; // 🔥 NOVO (performance)
+
+/* =========================
+   INIT
+========================= */
+
+async function carregarLeadsDoSupabase(userId) {
+  const { data, error } = await supabaseClient
+  .from("leads")
+  .select("*")
+  .eq("user_id", userId)
+  .eq("archived", false);
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  console.log("🔥 leads do banco:", data);
+
+  // 🔥 RESETA CRM
+  crm = {};
+
+  // 🔥 recria colunas padrão
+  
+  columns.forEach(col => {
+    crm[col.id] = [];
+  });
+
+  // 🔥 distribui leads
+  data.forEach(lead => {
+    if (!crm[lead.coluna]) {
+      crm[lead.coluna] = [];
+    }
+
+    crm[lead.coluna].push(lead);
+  });
+}
+
+columns.forEach(c => {
+  if (!crm[c.id]) crm[c.id] = [];
+  if (!messages[c.id]) messages[c.id] = "Olá, tudo bem?";
+});
+
+window.onload = () => {
+  console.log("🔐 aguardando login...");
+};
+
+/* =========================
+   INDEX (🔥 PERFORMANCE)
+========================= */
+function rebuildIndex() {
+  leadIndex = {};
+
+  columns.forEach(col => {
+
+    if (!crm[col.id]) {
+      crm[col.id] = [];
+    }
+
+    crm[col.id].forEach(l => {
+      leadIndex[l.id] = {
+        lead: l,
+        colId: col.id
+      };
+    });
+
+  });
+}
+
+function findLead(id) {
+  return leadIndex[id] || null;
+}
+
+/* =========================
+   RENDER
+========================= */
+function render() {
+  const kanban = document.querySelector(".kanban");
+  kanban.innerHTML = "";
+
+  columns.forEach(col => {
+    const div = document.createElement("div");
+
+    div.className = "coluna";
+    div.dataset.id = col.id;
+
+    div.ondragover = allowDropColumn;
+    div.ondrop = dropColumn;
+
+    div.innerHTML = `
+      <div class="header-coluna">
+        ${col.name} (${(crm[col.id] || []).length})
+        <div>
+          <button onclick="addLead('${col.id}')">+</button>
+          <button onclick="editMessage('${col.id}')">✉</button>
+          <button onclick="deleteColumn('${col.id}')">🗑</button>
+        </div>
+      </div>
+      <div id="${col.id}"></div>
+    `;
+
+    kanban.appendChild(div);
+  });
+
+  rebuildIndex(); // 🔥 IMPORTANTE
+  renderCards();
+}
+
+/* =========================
+   CARDS
+========================= */
+function renderCards() {
+  columns.forEach(col => {
+    const container = document.getElementById(col.id);
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    (crm[col.id] || []).forEach(lead => {
+      container.appendChild(createCard(lead));
+    });
+  });
+}
+
+/* =========================
+   CARD
+========================= */
+function createCard(lead) {
+  const card = document.createElement("div");
+
+  card.className = "card";
+  card.id = lead.id;
+  card.draggable = true;
+
+  card.ondragstart = dragCard;
+
+  card.innerHTML = `
+    <button class="delete-btn" onclick="deleteCard('${lead.id}')">🗑</button>
+
+    <div contenteditable="true" class="editable"
+      oninput="updateLead('${lead.id}','nome',this.innerText)">
+      ${lead.nome}
+    </div>
+
+    <div contenteditable="true" class="editable"
+      oninput="updateLead('${lead.id}','nicho',this.innerText)">
+      ${lead.nicho}
+    </div>
+
+    <div contenteditable="true" class="editable"
+      oninput="updateLead('${lead.id}','telefone',this.innerText)">
+      ${lead.telefone}
+    </div>
+
+    <div contenteditable="true" class="editable"
+      oninput="updateLead('${lead.id}','cidade',this.innerText)">
+      ${lead.cidade}
+    </div>
+
+    <button class="btn" onclick="whats('${lead.id}')">
+      WhatsApp
+    </button>
+  `;
+
+  return card;
+}
+
+/* =========================
+   UPDATE
+========================= */
+const debounceTimers = {};
+
+async function updateLead(id, field, value) {
+  const data = findLead(id);
+  if (!data) return;
+
+  const newValue = value.trim();
+  data.lead[field] = newValue;
+  save();
+
+  const key = id + "_" + field;
+  clearTimeout(debounceTimers[key]);
+
+  debounceTimers[key] = setTimeout(async () => {
+    try {
+      await supabaseClient
+        .from("leads")
+        .update({ [field]: newValue })
+        .eq("id", id);
+    } catch (e) {
+      console.error("Erro ao atualizar:", e);
+    }
+  }, 600);
+}
+
+/* =========================
+   DRAG
+========================= */
+function dragCard(ev) {
+  ev.dataTransfer.setData("id", ev.currentTarget.id);
+}
+
+async function dropColumn(ev) {
+  const id = ev.dataTransfer.getData("id");
+  const targetCol = ev.currentTarget.dataset.id;
+
+  const data = findLead(id);
+  if (!data) return;
+
+  crm[data.colId] = crm[data.colId].filter(l => l.id !== id);
+  crm[targetCol].push(data.lead);
+
+  // 🔥 ATUALIZA NO SUPABASE
+  await supabaseClient
+    .from("leads")
+    .update({ coluna: targetCol })
+    .eq("id", id);
+
+  save();
+  render();
+}
+
+function allowDropColumn(ev) {
+  ev.preventDefault();
+}
+
+/* =========================
+   CRUD
+========================= */
+async function addLead(colId) {
+  if (!crm[colId]) crm[colId] = [];
+
+  console.log("📦 criando lead manual...");
+
+  const { data, error } = await supabaseClient
+    .from("leads")
+    .insert([{
+      nome: "Nome",
+      telefone: "5584XXXXXXXX",
+      cidade: "Cidade",
+      nicho: "Nicho",
+      coluna: colId,
+      pipeline: PIPELINE,
+      user_id: currentUser.id,
+      
+    }])
+    .select();
+
+  if (error) {
+    console.error("❌ erro ao criar lead:", error);
+    return;
+  }
+
+  const lead = {
+    id: data[0].id, // 🔥 UUID REAL
+    nome: data[0].nome,
+    telefone: data[0].telefone,
+    cidade: data[0].cidade,
+    nicho: data[0].nicho,
+    user_id: currentUser.id,
+  };
+
+if (!crm[colId]) {
+  crm[colId] = [];
+}
+
+  crm[colId].push(lead);
+
+save();
+rebuildIndex(); // 🔥 ESSA LINHA RESOLVE TUDO
+renderCards();
+
+  console.log("🔥 lead manual salvo no supabase");
+}
+
+async function deleteCard(id) {
+
+  const found = findLead(id);
+
+  if (!found) return;
+
+  // marca como arquivado no banco
+  const { error } = await supabaseClient
+    .from("leads")
+    .update({
+      archived: true
+    })
+    .eq("id", id);
+
+  if (error) {
+    console.error("Erro ao arquivar lead:", error);
+    return;
+  }
+
+  // remove visualmente
+  crm[found.colId] = crm[found.colId].filter(
+    l => l.id !== id
+  );
+
+  rebuildIndex();
+  render();
+}
+
+/* =========================
+   COLUNAS
+========================= */
+async function criarColuna() {
+  const nome = novaColuna.value.trim();
+
+  if (!nome) return;
+
+  const id = nome.toLowerCase().replace(/\s/g, "_") + "_" + Date.now();
+
+  const novaColunaObj = {
+    id,
+    name: nome,
+    user_id: window.currentUser.id
+  };
+
+  const { error } = await supabaseClient
+    .from("columns")
+    .insert([novaColunaObj]);
+
+  if (error) {
+    console.error("Erro ao criar coluna:", error);
+    return;
+  }
+
+  columns.push({
+    id,
+    name: nome
+  });
+
+  crm[id] = [];
+
+  render();
+
+  console.log("🔥 coluna salva");
+}
+
+async function deleteColumn(id) {
+
+  // remove do banco
+  const { error } = await supabaseClient
+    .from("columns")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    console.error("Erro ao deletar coluna:", error);
+    return;
+  }
+
+  // remove localmente
+  columns = columns.filter(c => c.id !== id);
+
+  delete crm[id];
+  delete messages[id];
+
+  save();
+  render();
+
+}
+
+function editMessage(colId) {
+  const nova = prompt("Mensagem:", messages[colId]);
+  if (nova !== null) messages[colId] = nova;
+  save();
+}
+
+/* =========================
+   WHATS (🔥 MELHORADO)
+========================= */
+function whats(id) {
+  const data = findLead(id);
+  if (!data) return;
+
+  const numero = String(data.lead.telefone).replace(/\D/g, "");
+  const msg = encodeURIComponent(messages[data.colId] || "Olá");
+
+  window.open(`https://wa.me/${numero}?text=${msg}`, "_blank");
+}
+
+/* =========================
+   STORAGE
+========================= */
+function save() {
+  localStorage.setItem("crm", JSON.stringify(crm));
+  localStorage.setItem("columns", JSON.stringify(columns));
+  localStorage.setItem("messages", JSON.stringify(messages));
+}
+
+/* =========================
+   EXTENSÃO (MAPS)
+========================= */
+async function pegarLeadDaURL() {
+  const params = new URLSearchParams(window.location.search);
+  const leadParam = params.get("lead");
+
+  if (!leadParam) return;
+
+  try {
+    const lead = JSON.parse(decodeURIComponent(leadParam));
+
+    const colunaInicial = columns[0].id;
+
+const { data, error } = await supabaseClient
+  .from("leads")
+  .insert([{
+    nome: lead.nome || "Sem nome",
+    telefone: lead.telefone || "",
+    cidade: lead.cidade || "",
+    nicho: lead.nicho || "Não definido",
+    coluna: colunaInicial,
+    pipeline: PIPELINE,
+    user_id: currentUser.id,
+  }])
+  .select();
+
+if (error) {
+  console.error("Erro ao salvar:", error);
+  return;
+}
+
+const novoLead = {
+  id: data[0].id,
+  nome: data[0].nome,
+  nicho: data[0].nicho,
+  telefone: data[0].telefone,
+  cidade: data[0].cidade
+};
+
+crm[colunaInicial].push(novoLead);
+
+    save();
+    render();
+
+    setTimeout(() => {
+      window.history.replaceState({}, document.title, "/");
+    }, 500);
+
+  } catch (e) {
+    console.error("Erro ao processar lead:", e);
+  }
+}
+
+/* =========================
+   CSV
+========================= */
+async function importarCSV(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = async function(e) {
+    const text = e.target.result;
+    const linhas = text.split("\n").filter(l => l.trim() !== "");
+
+    const headers = linhas[0].toLowerCase().split(",");
+
+    const indexNome = headers.findIndex(h => h.includes("nome"));
+    const indexTelefone = headers.findIndex(h => h.includes("telefone") || h.includes("phone"));
+    const indexCidade = headers.findIndex(h => h.includes("cidade") || h.includes("endereco"));
+    const indexNicho = headers.findIndex(h => h.includes("nicho"));
+
+    if (indexNome === -1 || indexTelefone === -1) {
+      alert("CSV precisa ter nome e telefone");
+      return;
+    }
+
+    const colunaInicial = columns[0].id;
+    const leads = [];
+
+    for (let i = 1; i < linhas.length; i++) {
+      const cols = linhas[i].split(",");
+
+      leads.push({
+        nome: cols[indexNome]?.trim() || "Sem nome",
+        telefone: cols[indexTelefone]?.trim() || "",
+        cidade: indexCidade !== -1 ? cols[indexCidade]?.trim() : "",
+        nicho: indexNicho !== -1 ? cols[indexNicho]?.trim() : "",
+        coluna: colunaInicial,
+        pipeline: PIPELINE,
+        user_id: currentUser.id,
+      });
+    }
+
+    const { data, error } = await supabaseClient
+      .from("leads")
+      .insert(leads)
+      .select();
+
+    if (error) {
+      console.error("Erro ao importar:", error);
+      alert("Erro ao importar leads");
+      return;
+    }
+
+    data.forEach(lead => {
+      crm[colunaInicial].push(lead);
+    });
+
+    rebuildIndex();
+    render();
+
+    alert("Leads importados 🚀");
+    event.target.value = "";
+  };
+
+  reader.readAsText(file);
+}
+
+supabaseClient.auth.getSession().then(({ data }) => {
+  if (data.session) {
+    iniciarApp(data.session.user);
+  }
+});
+
+async function logout() {
+  await supabaseClient.auth.signOut();
+
+  console.log("👋 deslogado");
+
+  // 🔥 limpa memória
+  crm = {};
+  
+  leadIndex = {};
+
+  // 🔥 limpa localStorage (IMPORTANTE)
+  localStorage.clear();
+
+  // 🔥 limpa UI
+  document.querySelector(".kanban").innerHTML = "";
+
+  // 🔥 volta pro login
+  document.getElementById("loginBox").style.display = "block";
+  document.getElementById("app").style.display = "none";
+}
+
+async function carregarColunas(userId) {
+  const { data, error } = await supabaseClient
+    .from("columns")
+    .select("*")
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error("Erro ao carregar colunas:", error);
+    return;
+  }
+
+  console.log("📦 colunas carregadas:", data);
+
+  columns = [];
+  crm = {};
+
+  data.forEach(col => {
+
+    columns.push({
+      id: col.id,
+      name: col.name
+    });
+
+    crm[col.id] = [];
+
+  });
+
+}
+
+function toggleSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const main = document.getElementById("mainContent");
+  const btn = document.querySelector(".sidebar-toggle");
+  sidebar.classList.toggle("collapsed");
+  const collapsed = sidebar.classList.contains("collapsed");
+  btn.textContent = collapsed ? "›" : "‹";
+  main.style.marginLeft = collapsed ? "64px" : "240px";
+  btn.style.left = collapsed ? "52px" : "228px";
+}
+
+</script>
+
+</body>
+</html>
