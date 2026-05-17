@@ -973,7 +973,14 @@ function whats(id) {
   const data = findLead(id);
   if (!data) return;
 
-  const numero = String(data.lead.telefone).replace(/\D/g, "");
+  let numero = String(data.lead.telefone).replace(/\D/g, "");
+
+  // remove 55 se já tiver e adiciona de novo pra garantir
+  if (numero.startsWith("55")) {
+    numero = numero.substring(2);
+  }
+  numero = "55" + numero;
+
   const msg = encodeURIComponent(messages[data.colId] || "Olá");
 
   window.open(`https://wa.me/${numero}?text=${msg}`, "_blank");
