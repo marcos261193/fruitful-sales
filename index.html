@@ -433,6 +433,62 @@
   border-radius: 999px !important;
   padding: 8px 16px !important;
 }
+/* =========================
+   BOTÕES DE SCROLL
+========================= */
+
+.scroll-btn {
+  position: fixed;
+  z-index: 9999;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  user-select: none;
+
+  transition: all .2s ease;
+}
+
+.scroll-btn:hover {
+  transform: scale(1.08);
+}
+
+.vertical-btn {
+  width: 54px;
+  height: 54px;
+
+  right: 20px;
+  bottom: 90px;
+
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.scroll-horizontal-container {
+  position: fixed;
+
+  right: 20px;
+  bottom: 20px;
+
+  display: flex;
+  gap: 8px;
+
+  z-index: 9999;
+}
+
+.small-btn {
+  width: 38px;
+  height: 38px;
+
+  font-size: 14px;
+  font-weight: bold;
+}
 
 </style>
 </head>
@@ -1183,7 +1239,91 @@ function toggleSidebar() {
   btn.style.left = collapsed ? "52px" : "228px";
 }
 
+/* =========================
+   SCROLL BUTTONS
+========================= */
+
+window.addEventListener("load", () => {
+
+  const verticalBtn = document.getElementById("scrollVertical");
+  const leftBtn = document.getElementById("scrollLeft");
+  const rightBtn = document.getElementById("scrollRight");
+
+  function atualizarSeta() {
+
+    const scrollAtual = window.scrollY;
+
+    const alturaPagina =
+      document.documentElement.scrollHeight -
+      window.innerHeight;
+
+    if (scrollAtual > alturaPagina * 0.5) {
+      verticalBtn.innerHTML = "↑";
+    } else {
+      verticalBtn.innerHTML = "↓";
+    }
+  }
+
+  atualizarSeta();
+
+  window.addEventListener("scroll", atualizarSeta);
+
+  verticalBtn.addEventListener("click", () => {
+
+    if (verticalBtn.innerHTML === "↓") {
+
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: "smooth"
+      });
+
+    } else {
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    }
+
+  });
+
+  leftBtn.addEventListener("click", () => {
+
+    const kanban = document.querySelector(".kanban");
+
+    kanban.scrollBy({
+      left: -400,
+      behavior: "smooth"
+    });
+
+  });
+
+  rightBtn.addEventListener("click", () => {
+
+    const kanban = document.querySelector(".kanban");
+
+    kanban.scrollBy({
+      left: 400,
+      behavior: "smooth"
+    });
+
+  });
+
+});
+
 </script>
+
+<!-- CONTROLES DE SCROLL -->
+
+<div id="scrollVertical" class="scroll-btn vertical-btn">
+  ↓
+</div>
+
+<div class="scroll-horizontal-container">
+  <div id="scrollLeft" class="scroll-btn small-btn">◀</div>
+  <div id="scrollRight" class="scroll-btn small-btn">▶</div>
+</div>
 
 </body>
 </html>
