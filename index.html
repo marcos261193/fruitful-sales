@@ -470,10 +470,11 @@
 
 #scrollLeft {
   position: fixed;
-  left: 80px;
+  left: 248px;
   top: 50%;
   transform: translateY(-50%);
   z-index: 9999;
+  transition: left 0.3s;
 }
 
 #scrollRight {
@@ -1241,6 +1242,7 @@ function toggleSidebar() {
   btn.textContent = collapsed ? "›" : "‹";
   main.style.marginLeft = collapsed ? "64px" : "240px";
   btn.style.left = collapsed ? "52px" : "228px";
+  document.getElementById("scrollLeft").style.left = collapsed ? "72px" : "248px";
 }
 
 /* =========================
