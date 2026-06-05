@@ -537,9 +537,10 @@
   <!-- MENU LATERAL -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-logo">
-      <img src="logo-transparent.png" alt="Fruitful Sales">
-      <span class="sidebar-nome">Fruitful Sales</span>
-    </div>
+  <img src="logo-transparent.png" alt="Fruitful Sales">
+  <span class="sidebar-nome">Fruitful Sales</span>
+  <button class="sidebar-toggle" onclick="toggleSidebar()">‹</button>
+</div>
 
     <nav class="sidebar-nav">
       <a class="nav-item" href="#">
@@ -1243,6 +1244,8 @@ function toggleSidebar() {
   btn.style.left = collapsed ? "52px" : "228px";
   document.getElementById("scrollLeft").style.left = collapsed ? "72px" : "248px";
 
+}
+
 sidebar.addEventListener("mouseenter", () => {
   if (sidebar.classList.contains("collapsed")) {
     sidebar.classList.add("hover-open");
@@ -1252,7 +1255,6 @@ sidebar.addEventListener("mouseenter", () => {
 sidebar.addEventListener("mouseleave", () => {
   sidebar.classList.remove("hover-open");
 });
-}
 
 /* =========================
    SCROLL BUTTONS
@@ -1337,7 +1339,6 @@ window.addEventListener("load", () => {
 
   <div id="scrollLeft" class="scroll-btn small-btn">◀</div>
   <div id="scrollRight" class="scroll-btn small-btn">▶</div>
-</div>
 
 </body>
 </html>
