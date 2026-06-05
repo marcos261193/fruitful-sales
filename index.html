@@ -504,6 +504,14 @@
   opacity: 1;
 }
 
+.coluna {
+  cursor: grab;
+}
+
+.coluna:active {
+  cursor: grabbing;
+}
+
 </style>
 </head>
 
@@ -754,6 +762,30 @@ function render() {
 
     div.ondragover = allowDropColumn;
     div.ondrop = dropColumn;
+
+    // drag to scroll horizontal
+let isDown = false;
+let startX;
+let scrollLeft;
+const kanban = document.querySelector(".kanban");
+
+div.addEventListener("mousedown", (e) => {
+  if (e.target.closest(".card")) return;
+  isDown = true;
+  startX = e.pageX - kanban.offsetLeft;
+  scrollLeft = kanban.scrollLeft;
+});
+
+div.addEventListener("mousemove", (e) => {
+  if (!isDown) return;
+  e.preventDefault();
+  const x = e.pageX - kanban.offsetLeft;
+  const walk = (x - startX) * 2;
+  kanban.scrollLeft = scrollLeft - walk;
+});
+
+div.addEventListener("mouseup", () => isDown = false);
+div.addEventListener("mouseleave", () => isDown = false);
 
     div.innerHTML = `
       <div class="header-coluna">
