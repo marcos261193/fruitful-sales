@@ -1095,6 +1095,23 @@ async function pegarLeadDaURL() {
 
     const colunaInicial = columns[0].id;
 
+    // 🔥 verifica duplicado pelo telefone
+const telefoneLimpo = (lead.telefone || "").replace(/\D/g, "");
+if (telefoneLimpo) {
+  const { data: existente } = await supabaseClient
+    .from("leads")
+    .select("id")
+    .eq("user_id", currentUser.id)
+    .ilike("telefone", `%${telefoneLimpo}%`)
+    .limit(1);
+
+  if (existente && existente.length > 0) {
+    alert("⚠️ Este lead já existe no sistema!");
+    window.history.replaceState({}, document.title, "/");
+    return;
+  }
+}
+
 const { data, error } = await supabaseClient
   .from("leads")
   .insert([{
