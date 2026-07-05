@@ -520,6 +520,47 @@
   padding-right: 4px;
 }
 
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+}
+
+.modal-box {
+  background: linear-gradient(135deg, #ff6a00, #ff8c00);
+  border-radius: 16px;
+  padding: 32px 40px;
+  text-align: center;
+  color: white;
+  max-width: 360px;
+  width: 90%;
+  box-shadow: 0 8px 32px rgba(255,106,0,0.3);
+}
+
+.modal-box p {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 20px;
+}
+
+.modal-box button {
+  background: white;
+  color: #ff6a00;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 28px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 </style>
 </head>
 
@@ -1106,7 +1147,7 @@ if (telefoneLimpo) {
     .limit(1);
 
   if (existente && existente.length > 0) {
-    alert("⚠️ Este lead já existe no sistema!");
+    mostrarAlerta("Este lead já existe no sistema!");
     window.history.replaceState({}, document.title, "/");
     return;
   }
@@ -1397,6 +1438,18 @@ document.addEventListener("mouseup", () => {
   isDown = false;
   kanbanEl.style.cursor = "";
 });
+
+function mostrarAlerta(msg) {
+  const overlay = document.createElement("div");
+  overlay.className = "modal-overlay";
+  overlay.innerHTML = `
+    <div class="modal-box">
+      <p>⚠️ ${msg}</p>
+      <button onclick="this.closest('.modal-overlay').remove()">OK</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+}
 
 </script>
 
